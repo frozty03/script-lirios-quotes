@@ -1,0 +1,101 @@
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../fonts/eb-garamond-latin-400-normal.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('../fonts/eb-garamond-latin-400-italic.woff2') format('woff2');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+
+:root {
+  --paper: #f5efe4;
+  --ink: #2b3264;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--paper); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--paper);   /* o grão do papel entra como imagem, por script */
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  display: flex;
+  justify-content: center;
+  -webkit-text-size-adjust: 100%;
+}
+
+main {
+  width: 100%;
+  max-width: 36rem;
+  padding: max(1rem, env(safe-area-inset-top)) 1.25rem max(2rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* O canvas guarda só a tinta sobre branco; multiplicado sobre o papel, o branco some. */
+#bouquet {
+  display: block;
+  width: min(92vw, 62vh * 0.75, 35rem);
+  width: min(92vw, 62dvh * 0.75, 35rem);
+  aspect-ratio: 3 / 4;
+  height: auto;
+  mix-blend-mode: multiply;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.words {
+  width: 100%;
+  margin-top: -0.5rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(0.4rem);
+  transition: opacity 1.6s ease, transform 1.6s ease;
+}
+.words.on { opacity: 1; transform: none; }
+
+.greeting {
+  margin: 0 0 0.9rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+.quote {
+  margin: 0;
+  font-style: italic;
+  font-size: clamp(1.2rem, 1rem + 1.2vw, 1.5rem);
+  line-height: 1.45;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.quote::before { content: '«'; }
+.quote::after { content: '»'; }
+
+.credit {
+  margin: 0.9rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* celular deitado: buquê e texto lado a lado */
+@media (orientation: landscape) and (max-height: 520px) {
+  main { flex-direction: row; max-width: none; gap: 1.5rem; padding-block: 0.75rem; }
+  #bouquet { width: min(40vw, 92vh * 0.75); width: min(40vw, 92dvh * 0.75); flex: none; }
+  .words { margin-top: 0; max-width: 28rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .words { transition: opacity 0.6s ease; transform: none; }
+}

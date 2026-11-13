@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Folha de contato — os 30 buquês</title>
+<style>
+  body { margin: 0; padding: 12px; background: #f5efe4; font: 12px system-ui, sans-serif; color: #2b3264; }
+  #grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  figure { margin: 0; border: 1px solid #d8d0c0; }
+  canvas { display: block; width: 100%; aspect-ratio: 3 / 4; mix-blend-mode: multiply; }
+  figcaption { padding: 2px 6px; }
+</style>
+</head>
+<body>
+<div id="grid"></div>
+<script type="module">
+  import { prepareScene } from '../js/scene/scene.js';
+  import { createRenderer } from '../js/renderer.js';
+  import { QUOTES } from '../js/quotes.js';
+  const grid = document.getElementById('grid');
+  for (let day = 0; day < 30; day++) {
+    const fig = document.createElement('figure'), c = document.createElement('canvas'), cap = document.createElement('figcaption');
+    c.width = 450; c.height = 600;
+    cap.textContent = `dia ${day + 1} · ${QUOTES[day].author.split(' ').pop()}`;
+    fig.append(c, cap); grid.append(fig);
+    createRenderer(c, prepareScene(day, { res: 1 })).finish();
+    await new Promise(r => setTimeout(r));
+  }
+  document.title = 'pronto';
+</script>
+</body>
+</html>
